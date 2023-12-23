@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Cart = ()=>{
     const [data, setdata]= useState([])
-    const {cart, setNoOfProduct, setCart} = useContext(UserContext)
+    const {cart, setNoOfProduct, setCart, noOfProduct} = useContext(UserContext)
     const navigate = useNavigate()
 
 
@@ -18,6 +18,19 @@ export const Cart = ()=>{
         navigate("/home")
         setCart([])
         setNoOfProduct(0)
+    }
+
+
+    const handleRemove =(index)=>{
+        let arr = cart
+            cart.splice(index, 1)
+        setCart([...arr])
+        setNoOfProduct(noOfProduct - 1)
+
+    }
+
+    const handleDetail = ()=>{
+        navigate('/detail')
     }
 
 
@@ -43,8 +56,8 @@ export const Cart = ()=>{
                                         <text>{`Discount : ${data?.discountPercentage}`}</text>
                                     </div>
                                     <div className=" w-full flex flex-row justify-evenly px-2 py-2  ">
-                                        <button className=" w-2/5 bg-red-600 text-white px-2 py-1" >Remove</button>
-                                        <button className=" w-2/5 bg-red-600 text-white px-2 py-1">Detail</button>
+                                        <button className=" w-2/5 bg-red-600 text-white px-2 py-1"  onClick={()=>handleRemove(index)}>Remove</button>
+                                        <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={(e)=>handleDetail(index)}>Detail</button>
                                     </div>
                                 </div>
                             )

@@ -58,12 +58,13 @@ export const Home = ()=>{
 
     return(
         <div>
-            <div className=" w-full flex flex-row justify-between text-center align-middle  bg-red-600 h-[80px] px-5 py-5">
+            <div className=" w-full flex flex-row justify-between text-center align-middle  bg-red-600 h-[80px] px-5 py-5 ">
                 
                 
-                <input placeholder=" Search By Product name" className=" border-gray-100 border-2  rounded h-[40px] w-[350px] pl-3" onChange={(e)=>setSearch(e.target.value)}/>
-                <div className="flex flex-row  ">
-                    <text className=" flex flex-row absolute px-3 py-1 bg-yellow-400 text-white  rounded-full top-3 right-11 ">{noOfProduct}</text>
+                <input placeholder=" Search By Product name" className=" border-gray-100 border-2  rounded h-[40px] w-[180px] pl-3 text-sm  lg:w-[500px] md:w-[400px] sm:w-[350px] " onChange={(e)=>setSearch(e.target.value)}/>
+                
+                <div className="flex flex-row ml-5  ">
+                    <text className=" flex flex-row absolute px-3 py-1 bg-yellow-400 text-white  rounded-full top-2 right-12  text-sm">{noOfProduct}</text>
                     <text className="  cursor-pointer px-2 rounded py-2 bg-white text-red-600" onClick={handleCart}>Cart</text>
                 </div>
 
