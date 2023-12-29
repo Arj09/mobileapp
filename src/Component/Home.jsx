@@ -12,8 +12,10 @@ export const Home = ()=>{
     const [firstAmount, setFirstAmount] = useState()
     const [secondAmount, setSecondAmount] = useState()
     const [inc, setInc] = useState(0)
-    const { setCart, setNoOfProduct, noOfProduct} = useContext(UserContext)
+    const { setCart, setNoOfProduct, noOfProduct, cart, totalAmount, setTotalAmount, Userlogin} = useContext(UserContext)
     const navigate = useNavigate()
+
+    let AddtoCart = true
 
 
     const  handleAmount = (e)=>{
@@ -31,9 +33,32 @@ export const Home = ()=>{
     }
 
     const handleAdd = (index)=>{
+
+       
         const findData = data[index]
-        setCart(cart=>([...cart, findData]))
-        setNoOfProduct(noOfProduct+1)
+        
+        const AddProduct_title = data[index].title
+        for(let i = 0; i<cart.length ; i++){
+            const ad = cart.filter((cart)=>cart.title == AddProduct_title)
+            if(cart[i]?.title == ad[0]?.title){
+                cart[i].Qty = cart[i].Qty + 1
+                setTotalAmount(totalAmount + cart[i].price)
+                AddtoCart = false
+            }
+        }
+        
+        if(AddtoCart){
+            const findData = data[index]
+            const { title, price, discountPercentage, rating, description, brand, thumbnail } = findData
+            const newData = { title, price, discountPercentage, rating, brand , description, thumbnail, Qty:1}
+            setCart(cart=>([...cart, newData]))
+            setTotalAmount(totalAmount + data[index].price)
+            setNoOfProduct(noOfProduct+1)
+
+        }
+        
+        
+       
 
 
     }
@@ -53,7 +78,9 @@ export const Home = ()=>{
 
     },[])
 
-    console.log("inc", inc)
+
+    
+
 
 
     return(
@@ -64,7 +91,18 @@ export const Home = ()=>{
                 <input placeholder=" Search By Product name" className=" border-gray-100 border-2  rounded h-[40px] w-[180px] pl-3 text-sm  lg:w-[500px] md:w-[400px] sm:w-[350px] " onChange={(e)=>setSearch(e.target.value)}/>
                 
                 <div className="flex flex-row ml-5  ">
-                    <text className=" flex flex-row absolute px-3 py-1 bg-yellow-400 text-white  rounded-full top-2 right-12  text-sm">{noOfProduct}</text>
+                
+                    
+                    
+                    {
+                        noOfProduct == 0 ? (
+                            <div className=" hidden"></div>
+
+                        ) : (
+                            <text className=" flex flex-row absolute px-3 py-1 bg-yellow-400 text-white rounded-full top-2 right-12  text-sm">{noOfProduct}</text>
+                        )
+                    }
+
                     <text className="  cursor-pointer px-2 rounded py-2 bg-white text-red-600" onClick={handleCart}>Cart</text>
                 </div>
 
@@ -98,8 +136,13 @@ export const Home = ()=>{
                                     <text>{`Discount : ${data?.discountPercentage}`}</text>
                                 </div>
                                 <div className=" w-full flex flex-row justify-evenly px-2 py-2  ">
+                                    {
+
+                                    }
+                                   
                                     
                                     <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={()=>handleAdd(index)}>Add</button>
+                                    
                                     <button className=" w-2/5 bg-red-600 text-white px-2 py-1">Detail</button>
                                 </div>
 
@@ -111,6 +154,16 @@ export const Home = ()=>{
 
             </div>
 
+            <div className=" w-[87px]  flex flex-row mx-auto my-2 text-white border-2 border-red-600">
+                <button className=" flex flex-row  justify-center align-middle  px-1.5 py-1 bg-white text-black">+</button>
+                <button  className=" flex flex-row  justify-center align-middle  px-1.5 py-1 bg-red-600 text-white">Add</button>
+                <button className=" flex flex-row  justify-center align-middle  px-1.5 py-1 bg-white text-black">-</button>
+            </div>
+
+            
+
+            
+        
 
 
 

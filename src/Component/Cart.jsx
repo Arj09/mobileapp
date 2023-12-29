@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Cart = ()=>{
     const [data, setdata]= useState([])
-    const {cart, setNoOfProduct, setCart, noOfProduct} = useContext(UserContext)
+    const {cart, setNoOfProduct, setCart, noOfProduct, totalAmount, setTotalAmount} = useContext(UserContext)
     const navigate = useNavigate()
 
 
@@ -21,10 +21,12 @@ export const Cart = ()=>{
     }
 
 
-    const handleRemove =(index)=>{
+    const handleRemove =(index, price, Qty)=>{
+         
         let arr = cart
             cart.splice(index, 1)
         setCart([...arr])
+        setTotalAmount(totalAmount - price * Qty)
         setNoOfProduct(noOfProduct - 1)
 
     }
@@ -41,8 +43,14 @@ export const Cart = ()=>{
         <div className="w-4/5 mx-auto my-1 flex flex-row justify-start px-2 py-4">
             <button  className='bg-red-600 px-3 py-2 text-md text-white'         onClick={handleBack}>Back to Home</button>
         </div>
+
+
         <div className="w-4/5 flex flex-col mx-auto my-2 gap-2  px-2 py-2 ">
                 <text className="flex flex-row justify-center mx-auto text-2xl bg-red-600 text-white py-2 w-full">Cart</text>
+                <div className="w-full flex flex-row mx-auto my-1 bg-red-600 justify-between px-4 text-xl  ">
+                    <text className="text-white py-2 ">{`Total No Of Product : ${noOfProduct}`} </text>
+                    <text className="text-white py-2">{`Total Amount : ${totalAmount}`}</text>
+                </div>
                 <div className="flex flex-col justify-between px-3 w-full border-2 border-red-600 py-5  gap-6">
                     {
                         cart.map((data, index)=>{
@@ -54,9 +62,10 @@ export const Cart = ()=>{
                                         <text>{`Rs : ${data?.price} /-`}</text>
                                         <text>{`Rating : ${data?.rating}`}</text>
                                         <text>{`Discount : ${data?.discountPercentage}`}</text>
+                                        <text>{`Quantity : ${data?.Qty}`}</text>
                                     </div>
                                     <div className=" w-full flex flex-row justify-evenly px-2 py-2  ">
-                                        <button className=" w-2/5 bg-red-600 text-white px-2 py-1"  onClick={()=>handleRemove(index)}>Remove</button>
+                                        <button className=" w-2/5 bg-red-600 text-white px-2 py-1"  onClick={()=>handleRemove(index, data?.price, data?.Qty)}>Remove</button>
                                         <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={(e)=>handleDetail(index)}>Detail</button>
                                     </div>
                                 </div>
