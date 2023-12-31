@@ -35,6 +35,10 @@ export const Cart = ()=>{
         navigate('/detail')
     }
 
+    if(!localStorage.getItem('Token')){
+        navigate("/")
+    }
+
 
 
     return(

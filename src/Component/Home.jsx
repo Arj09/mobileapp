@@ -68,6 +68,11 @@ export const Home = ()=>{
     }
 
 
+    const handleDetail = ()=>{
+        navigate("/detail")
+    }
+
+
     useEffect(()=>{
         axios.get("https://dummyjson.com/products").then((res)=>{
             console.log(res.data.products)
@@ -78,6 +83,10 @@ export const Home = ()=>{
 
     },[])
 
+
+    if(!localStorage.getItem('Token')){
+        navigate("/")
+    }
 
     
 
@@ -143,7 +152,7 @@ export const Home = ()=>{
                                     
                                     <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={()=>handleAdd(index)}>Add</button>
                                     
-                                    <button className=" w-2/5 bg-red-600 text-white px-2 py-1">Detail</button>
+                                    <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={handleDetail}>Detail</button>
                                 </div>
 
                             </div>
@@ -154,12 +163,7 @@ export const Home = ()=>{
 
             </div>
 
-            <div className=" w-[87px]  flex flex-row mx-auto my-2 text-white border-2 border-red-600">
-                <button className=" flex flex-row  justify-center align-middle  px-1.5 py-1 bg-white text-black">+</button>
-                <button  className=" flex flex-row  justify-center align-middle  px-1.5 py-1 bg-red-600 text-white">Add</button>
-                <button className=" flex flex-row  justify-center align-middle  px-1.5 py-1 bg-white text-black">-</button>
-            </div>
-
+           
             
 
             
