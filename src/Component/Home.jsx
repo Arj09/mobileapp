@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Card } from "./Card";
 import { UserContext } from "./ContextAPI/Context";
 import { useNavigate } from 'react-router-dom'
+import { Popup } from "./Popup";
 
 
 export const Home = ()=>{
@@ -14,7 +15,8 @@ export const Home = ()=>{
     const [inc, setInc] = useState(0)
     const { setCart, setNoOfProduct, noOfProduct, cart, totalAmount, setTotalAmount, Userlogin} = useContext(UserContext)
     const navigate = useNavigate()
-
+    const [display, setDisplay] = useState(false)
+    const [indexPopup, setIndexPopup] = useState()
     let AddtoCart = true
 
 
@@ -33,6 +35,7 @@ export const Home = ()=>{
     }
 
     const handleAdd = (index)=>{
+        
 
        
         const findData = data[index]
@@ -41,8 +44,11 @@ export const Home = ()=>{
         for(let i = 0; i<cart.length ; i++){
             const ad = cart.filter((cart)=>cart.title == AddProduct_title)
             if(cart[i]?.title == ad[0]?.title){
-                cart[i].Qty = cart[i].Qty + 1
-                setTotalAmount(totalAmount + cart[i].price)
+                if(cart[i]?.Qty < 5){
+                    cart[i].Qty = cart[i].Qty + 1
+                    setTotalAmount(totalAmount + cart[i].price)
+                   
+                }
                 AddtoCart = false
             }
         }
@@ -59,7 +65,12 @@ export const Home = ()=>{
         
         
        
-
+        setDisplay(true)
+        setIndexPopup(index)
+        setTimeout(()=>{
+            setDisplay(false)
+            setIndexPopup()
+        }, [1000])
 
     }
     const handleCart = ()=>{
@@ -136,22 +147,29 @@ export const Home = ()=>{
                     .map((data, index)=>{
                         
                         return(
-                            <div  key={index}   className="w-11/12 border-slate-200 border-2 h-80 ">
+                            <div  key={index}   className="w-11/12 border-slate-200 border-2 h-80  relative">
                                 <img src={data?.thumbnail }  className=" w-full h-2/5" />
                                 <div className="flex flex-col pl-5 py-2">
+                                    {
+                                        display && indexPopup == index  ? (
+                                            <Popup text={'Item added'}/>
+                                        ):(
+                                            <text className=" hidden"></text>
+                                        )
+                                    }
+                                    
+                                    
                                     <text>{`${data?.title}`}</text>
                                     <text>{`Rs : ${data?.price} /-`}</text>
                                     <text>{`Rating : ${data?.rating}`}</text>
                                     <text>{`Discount : ${data?.discountPercentage}`}</text>
                                 </div>
-                                <div className=" w-full flex flex-row justify-evenly px-2 py-2  ">
-                                    {
 
-                                    }
-                                   
+                               
+                                <div className=" w-full flex flex-row justify-evenly px-2 py-2 relative  ">
+                                    
                                     
                                     <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={()=>handleAdd(index)}>Add</button>
-                                    
                                     <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={handleDetail}>Detail</button>
                                 </div>
 
@@ -162,8 +180,16 @@ export const Home = ()=>{
                
 
             </div>
+            {
+                data.length == 0 ? (
+                    <text className="flex flex-row justify-center mx-auto text-5xl my-36">Data is loading</text>
+                ): (
+                    <text className=" hidden">that is not display</text>
+                )
+            }
 
-           
+            
+
             
 
             

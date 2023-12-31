@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "./ContextAPI/Context";
 import { useNavigate } from "react-router-dom";
+import { Popup } from "./Popup";
 
 
 
@@ -8,6 +9,8 @@ export const Cart = ()=>{
     const [data, setdata]= useState([])
     const {cart, setNoOfProduct, setCart, noOfProduct, totalAmount, setTotalAmount} = useContext(UserContext)
     const navigate = useNavigate()
+    const [display, setDisplay] = useState(false)
+    const [indexPopup, setIndexPopup] = useState()
 
 
     const handleBack =()=>{
@@ -35,6 +38,35 @@ export const Cart = ()=>{
         navigate('/detail')
     }
 
+    const handleInc = (price, index)=>{
+        setIndexPopup(index)
+
+        if(cart[index].Qty<5){
+            cart[index].Qty = cart[index].Qty + 1
+            setTotalAmount(totalAmount + price)
+
+        }
+        else
+        {
+            setDisplay(true)
+            setTimeout(()=>{
+                setDisplay(false)
+
+            }, [1000])
+            
+
+        }
+
+
+    }
+    const handleDec = (price, index)=>{
+        if(cart[index].Qty>1){
+            cart[index].Qty = cart[index].Qty - 1
+            setTotalAmount(totalAmount - price)
+        }
+
+    }
+
     if(!localStorage.getItem('Token')){
         navigate("/")
     }
@@ -59,18 +91,38 @@ export const Cart = ()=>{
                     {
                         cart.map((data, index)=>{
                             return(
-                                <div  key={index}   className="w-full mx-auto border-slate-200 border-2 h-80  px-2 py-4 lg:w-2/5 md:w-4/5 sm:w-4/5">
+                                <div  key={index}   className="w-full mx-auto relative border-slate-200 border-2 h-80  px-2 py-4 lg:w-2/5 md:w-4/5 sm:w-4/5">
                                     <img src={data?.thumbnail }  className=" w-full h-2/5" />
-                                    <div className="flex flex-col pl-5 py-2">
+                                    <div className="flex flex-col pl-5 py-1">
                                         <text>{`${data?.title}`}</text>
                                         <text>{`Rs : ${data?.price} /-`}</text>
                                         <text>{`Rating : ${data?.rating}`}</text>
                                         <text>{`Discount : ${data?.discountPercentage}`}</text>
-                                        <text>{`Quantity : ${data?.Qty}`}</text>
+                                        
+                                        <div className=" w-full flex flex-row  ">
+
+
+                                            {
+                                                display && indexPopup == index ? (
+                                                    <Popup text={'You can add maximum 5 quantity'}/>
+                                                ):(
+                                                    <div className=" hidden"></div>
+
+                                                )
+                                            }
+
+
+                                            <text>{`Quantity :`}</text>
+                                            <div className=" border-2 border-red-600 ml-2 rounded">
+                                                <button className="px-1" onClick={()=>handleDec(data.price, index)}>-</button>
+                                                <text className="px-1">{data.Qty}</text>
+                                                <button className="px-1" onClick={()=>handleInc(data.price, index)}>+</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className=" w-full flex flex-row justify-evenly px-2 py-2  ">
-                                        <button className=" w-2/5 bg-red-600 text-white px-2 py-1"  onClick={()=>handleRemove(index, data?.price, data?.Qty)}>Remove</button>
-                                        <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={(e)=>handleDetail(index)}>Detail</button>
+                                        <button className=" w-2/5 bg-red-600 text-white px-2 py-1 rounded"  onClick={()=>handleRemove(index, data?.price, data?.Qty)}>Remove</button>
+                                        <button className=" w-2/5 bg-red-600 text-white px-2 py-1 rounded" onClick={(e)=>handleDetail(index)}>Detail</button>
                                     </div>
                                 </div>
                             )

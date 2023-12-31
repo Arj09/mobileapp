@@ -5,6 +5,7 @@ import { Home } from './Component/Home';
 import { Cart } from './Component/Cart';
 import { UserContextProvider } from './Component/ContextAPI/ContextProvider';
 import { Detail } from './Component/Detail';
+import { Dost } from './Component/Dost';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path='/home' element={<Home/>} />
       <Route path='/cart' element={<Cart/>} />
       <Route path='/detail' element={<Detail/>} />
+      <Route path='/dost' element={<Dost/>} />
     </Routes>
     </BrowserRouter>
     </UserContextProvider>
