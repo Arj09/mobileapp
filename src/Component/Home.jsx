@@ -13,7 +13,7 @@ export const Home = ()=>{
     const [firstAmount, setFirstAmount] = useState()
     const [secondAmount, setSecondAmount] = useState()
     const [inc, setInc] = useState(0)
-    const { setCart, setNoOfProduct, noOfProduct, cart, totalAmount, setTotalAmount, Userlogin} = useContext(UserContext)
+    const { setCart, setNoOfProduct, noOfProduct, cart, totalAmount, setTotalAmount, Userlogin, setDataG, setCurrentTitle} = useContext(UserContext)
     const navigate = useNavigate()
     const [display, setDisplay] = useState(false)
     const [indexPopup, setIndexPopup] = useState()
@@ -79,7 +79,8 @@ export const Home = ()=>{
     }
 
 
-    const handleDetail = ()=>{
+    const handleDetail = (data)=>{
+        setCurrentTitle(data)
         navigate("/detail")
     }
 
@@ -88,6 +89,8 @@ export const Home = ()=>{
         axios.get("https://dummyjson.com/products").then((res)=>{
             console.log(res.data.products)
             setData(res.data.products)
+           
+            
         }).catch((err)=>{
             console.log(err)
         })
@@ -170,7 +173,7 @@ export const Home = ()=>{
                                     
                                     
                                     <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={()=>handleAdd(index)}>Add</button>
-                                    <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={handleDetail}>Detail</button>
+                                    <button className=" w-2/5 bg-red-600 text-white px-2 py-1" onClick={()=>handleDetail(data.title)}>Detail</button>
                                 </div>
 
                             </div>
