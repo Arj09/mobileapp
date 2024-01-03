@@ -57,7 +57,7 @@ export const Login = ()=>{
                 
                 <text className="flex flex-row justify-center text-slate-900 pb-7 text-2xl">Mobile Order App</text>
                 <input  placeholder="Enter username"  class="border-gray-100 border-2 pl-1"  name="username" value={login.username || ""} onChange={handleData} required />
-                <input   placeholder="Enter password"  class="border-gray-100 border-2 pl-1"  name="password" value={login.password || ""} onChange={handleData} required/>
+                <input type="password"   placeholder="Enter password"  class="border-gray-100 border-2 pl-1"  name="password" value={login.password || ""} onChange={handleData} required/>
                 <button class="bg-red-600 text-white px-5 py-1 rounded" >Login</button>
             </form>
         </div>
