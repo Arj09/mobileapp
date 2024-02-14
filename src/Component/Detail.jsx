@@ -33,13 +33,13 @@ export const Detail = ()=>{
 
     return(
         <div>
-            <div className="flex flex-row mx-auto my-5 justify-start w-4/5 px-4">
-                <button className="bg-red-600 text-white px-3 py-1" onClick={handleBack}>Back to home</button>
+            <div className="flex flex-row mx-auto my-5 justify-start w-4/5 px-2 ">
+                <button className="bg-red-600 text-white px-3 py-1.5 rounded" onClick={handleBack}>Back to home</button>
             </div>
             {
                 find?.map((data, index)=>{
                     return(
-                        <div className="flex flex-col mx-auto my-10 border-2 border-red-600 w-4/5 ">
+                        <div className="flex flex-col mx-auto my-10 border-2 border-red-600 w-4/5 rounded ">
                             <div className=" flex flex-row mx-auto w-full my-3 justify-center">
                                 <img className="w-2/4" src={data.thumbnail} alt="page"  />
                                 
